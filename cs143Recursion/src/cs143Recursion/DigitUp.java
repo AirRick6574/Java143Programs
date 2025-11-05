@@ -44,5 +44,6 @@ public class DigitUp {
 		System.out.println(DigitupDigitDown(385)); //294
 		System.out.println(DigitupDigitDown(-790)); //-681
 		System.out.println(DigitupDigitDown(89294)); //98385
+		
 	}
 }

@@ -1,4 +1,3 @@
-import javax.xml.stream.events.EndDocument;
 
 public class RecursionIntro {
 	
@@ -38,11 +37,20 @@ public class RecursionIntro {
 	
 	
 	public static void printSparseTable(int start, int end) {
-		//TODO implement
+		printSparseTable(start, end, -1);
 	}
 	
 	private static void printSparseTable(int start, int end, int prev) {
+		if (start > end) {
+			return;
+		} 
+		int fibbyVar = fibby(start);
 		
+		if (fibbyVar != prev) {
+			System.out.println(start + " " + fibbyVar);
+		}
+		
+		printSparseTable(start + 1, end, fibbyVar);
 	}
 	
 	//Part 3:
@@ -54,5 +62,11 @@ public class RecursionIntro {
 		return 0; //TODO implement
 	}
 	
-
+	public static void main(String[] args) {
+		printSparseTable(4, 10);
+		
+		System.out.println();
+		
+		printSparseTable(10, 10);
+	}
 }
