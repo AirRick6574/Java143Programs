@@ -5,7 +5,7 @@
  * Some of these methods also include helper methods to assist or are dependent
  * on other functioning methods.
  */
-public class RecursionIntro {
+public class RecursionIntroWComments {
 	
 	//Part 1: Even digits up, odd digits down
 	/*
