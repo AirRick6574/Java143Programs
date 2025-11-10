@@ -1,5 +1,6 @@
 import java.util.Iterator;
 
+
 //implements will grab and implement an interface (Iterable interface)
 //implementing something may require writing needed requirements
 public class DoublyLinkedList implements Iterable<String>{
@@ -84,6 +85,61 @@ public class DoublyLinkedList implements Iterable<String>{
 			head = newHead;
 		}
 		size++;
+	}
+	
+	/*
+	 * Remove(int i) removes the element at index i
+	 * in the the list. Returns the string that is removed.
+	 * 
+	 */
+	public String remove(int i) {
+		// out of bounds case
+		if(i < 0 || i >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		//Case 1: list with size 1 (Both are same things)
+		else if(head == tail) {
+			String results = head.data;
+			head = tail = null;
+			size--;
+			return results;
+		} 
+		//Case 2: Removing the head (index = 0)
+		else if(i == 0) {
+			String results = head.data;
+			head = head.next;
+			//Make sure link is broken and nothing comes before the head
+			head.prev = null;
+			size--;
+			return results;
+		}
+		//case 3: removing the tail
+		else if (i == size - 1) {
+			String results = tail.data;
+			tail = tail.prev;
+			//Make sure link is broken and nothing comes after the tail
+			tail.next = null;
+			size--;
+			return results;
+		}
+		//case 4: removing center:
+		else {
+			//loop to position i in the list
+			//start a variable at the head,
+			Node walker = head;
+			//loop it forwards in "i" times
+			for(int j = 0; j < i; i++) {
+				walker = walker.next;
+			}
+			
+			size--;
+			String res = walker.data;
+			(walker.prev).next = walker.next;
+			(walker.next).prev = walker.prev;
+			return res;
+		}
+		
+					
 	}
 	
 	/*
@@ -172,7 +228,7 @@ public class DoublyLinkedList implements Iterable<String>{
 			System.out.println(s);
 		}
 		System.out.println("===================");
-		
+
 		// test how long it takes to call the get method
 		// on 1000 things vs 2000 things vs 4000 things
 		for(int size = 1000; size < 10_000_000; size = size * 2) {
@@ -181,29 +237,29 @@ public class DoublyLinkedList implements Iterable<String>{
 			for(int i = 0; i < size; i++) {
 				list.add(""+i);
 			}
-			
-	
-			
+
+
+
 			long start = System.currentTimeMillis();
 			// call the get method on all the elements
 			// in the list
-			
+
 			// N times, overall O(N^2)
-//			for(int i = 0; i < list.size; i++) {
-//				list.get(i); // O(N)
-//			}
-			
+			//			for(int i = 0; i < list.size; i++) {
+			//				list.get(i); // O(N)
+			//			}
+
 			// O(N) 
-//			Iterator<String> iter = list.iterator();
-//			while(iter.hasNext()) {
-//				iter.next();
-//			}
+			//			Iterator<String> iter = list.iterator();
+			//			while(iter.hasNext()) {
+			//				iter.next();
+			//			}
 			for(String s : list) {
-				
+
 			}
-			
+
 			long end = System.currentTimeMillis();
-			
+
 			System.out.println(size + ": " + (end - start));
 		}
 	}
