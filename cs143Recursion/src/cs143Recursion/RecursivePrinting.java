@@ -7,7 +7,10 @@ public class RecursivePrinting {
 		System.out.println();
 		
 		printNTo0R(5);
+		
+		System.out.println("\n" + 0%2);
 	}
+	
 	
 	/*
 	 * printNTo0 prints the numbers from n down to 0
@@ -44,4 +47,7 @@ public class RecursivePrinting {
 		//Step 2: repeat step 1 on the next number 
 		printNTo0R(n-1);
 	}
+	
 }
+
+
