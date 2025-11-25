@@ -4,6 +4,9 @@ package binarySearchTree;
 /*
  * We can make out BST generic, but T should only be substituted with types of objects
  * we can compare to each other
+ * 
+ * T extends Comparable<T> makes sure that only objects
+ * with a compareTo method can be substituted for T
  */
 public class BinarySearchtree<T extends Comparable<T>> {
 	//inner node class that represents a single item
@@ -37,6 +40,7 @@ public class BinarySearchtree<T extends Comparable<T>> {
 	
 	/*
 	 * size() returns the number of nodes in the BST
+	 *  O(1) constant time
 	 */
 	public int size() {
 		return size;
@@ -62,39 +66,124 @@ public class BinarySearchtree<T extends Comparable<T>> {
 		}
 	}
 	
-	//helper method with an extra param to keep track
-	//of which node each recursive call is examining
+	/*
+	 * recursiveSize returns the number of nodes in the
+	 * BST utilizing recursion
+	 * 
+	 * O(N)
+	 */
+	public int recursiveSize() {
+		return recursiveSize(overallRoot);
+	}
+	
+	// private helper method with an extra parameter
+		// "which subtree is this recursive call responsible
+		// for?"
+	private int recursiveSize(Node<T> subtree) {
+		// base case 1: size of an empty tree is 0
+		if(subtree == null) {
+			return 0;
+		}
+		// base case 2: size of a leaf is 1
+		else if(subtree.left == null 
+				&& subtree.right == null) {
+			return 1;
+		}
+		else {
+			return recursiveSize(subtree.left) +
+					recursiveSize(subtree.right) +
+					1; // for the root
+		}
+	}
+		
+	/*
+	 * recursiveHeight returns the number of levels 
+	 * of nodes in the tree
+	 */
+	public int recursiveHeight() {
+		return recursiveHeight(overallRoot);
+	}
+	
+	// private helper method with an extra parameter
+	// "which subtree is this recursive call responsible
+	// for?"
+	private int recursiveHeight(Node<T> subtree) {
+		// base case 1: size of an empty tree is 0
+		if(subtree == null) {
+			return 0;
+		}
+		// base case 2: size of a leaf is 1
+		else if(subtree.left == null 
+				&& subtree.right == null) {
+			return 1;
+		}
+		else {
+			return Math.max(recursiveHeight(subtree.left),
+					recursiveHeight(subtree.right))
+					+ 1; // for the root
+		}
+	}
+		
+
+	// helper method with an extra param to keep track
+	// of which node each recursive call is examining
 	private boolean add(T data, Node<T> node) {
 		int comparison = data.compareTo(node.data);
-		
 		if(comparison < 0) {
-			//before going left, if nothing is there, placement found
-			//we found the place for our data
+			// before going left, if there is nothing there,
+			// we found the place for our data
 			if(node.left == null) {
 				node.left = new Node<T>(data);
 				size++;
 				return true;
 			}
-			
-			//go left
+			// go left
 			return add(data, node.left);
-			
-		} else if(comparison > 0) {
-			//go right
-			//before going right, if nothing is there, placement found
-			//we found the place for our data
+		}
+		else if(comparison > 0) {
+			// before going right, if there is nothing there,
+			// we found the place for our data
 			if(node.right == null) {
 				node.right = new Node<T>(data);
 				size++;
 				return true;
 			}
-			
-			//go right
+			// go right
 			return add(data, node.right);
-			
-		} else { //means comparison equals 0
-			//trying to add a duplicate
+		}
+		else { // comparison == 0
+			// trying to add a duplicate
 			return false;
+		}
+	}
+		
+	
+	/*
+	 * printInOrder prints out all the data in the BST
+	 * each on their own line using in order tree transversal
+	 * 
+	 * left root right
+	 */
+	public void printInOrder() {
+		printInOrder(overallRoot);
+	}
+	
+	private void printInOrder(Node<T> subtree) {
+		//If we ever see an empty subtree, 
+		//nothing to print, terminate the recursion
+		
+		if(subtree == null) {
+			return;
+		}
+		
+		//recursive call
+		else {
+			//1. print out everything in the left subtree
+			printInOrder(subtree.left);
+			//2. Print out the root
+			System.out.println(subtree.data);
+			//3. print out everything in the right subtree
+			printInOrder(subtree.right);
 		}
 	}
 	
@@ -111,8 +200,9 @@ public class BinarySearchtree<T extends Comparable<T>> {
 		
 		bst.add("David");
 		System.out.println(bst.size());
-		
-		
+		System.out.println(bst.recursiveSize());
+		System.out.println(bst.recursiveHeight());
+		bst.printInOrder();
 	}
 	
 }
